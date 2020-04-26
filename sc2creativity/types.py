@@ -1,4 +1,5 @@
 import typing
+import datetime
 
 
 class BuildEvent(typing.NamedTuple):
@@ -17,7 +18,17 @@ class ActionRollup(typing.NamedTuple):
     event_weight: float
 
 
+class ReplayPlayer(typing.NamedTuple):
+    name: str
+    race: str
+
+
 class ReplaySummary(typing.NamedTuple):
-    self_race: str
-    opponent_race: str
+    replay_id: str
+    start_time: datetime.datetime
+    real_duration_seconds: int
+
+    self: ReplayPlayer
+    opponent: ReplayPlayer
+
     actions: typing.List[ActionRollup]
