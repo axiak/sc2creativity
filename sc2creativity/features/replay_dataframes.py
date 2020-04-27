@@ -81,7 +81,7 @@ def build_dataframe(fname):
             col: 0. for col in columns
         }
         for col in start_cols:
-            row_dict[col] = INFINITY
+            row_dict[col] = 1000 ** 2
 
         row_dict[START_TIME_COL] = summary.start_time
         row_dict[DURATION_COL] = summary.real_duration_seconds
@@ -100,7 +100,7 @@ def build_dataframe(fname):
             row_dict[START_COL.format(action.name)] = action.first_event_time
 
         for col in start_cols:
-            row_dict[col] = INFINITY / (row_dict[col] or 0.1)
+            row_dict[col] = (row_dict[col] or 0.1) ** 0.5
 
         data.append([
             row_dict[col] for col in columns

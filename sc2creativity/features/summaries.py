@@ -23,7 +23,7 @@ ToOverseer
 
 
 WEIGHT_DECAY_HALF_LIFE_SECONDS = 120.
-MAX_INITIAL_TIME = 600.
+MAX_INITIAL_TIME = 7.5 * 60
 CPUS = max(1, multiprocessing.cpu_count() - 2)
 MAX_REPLAYS = 10000
 RACES = ("terran", "protoss", "zerg")
@@ -148,30 +148,6 @@ def summarize_replay(replay, player_id_zero_idx, replay_id) -> typing.Optional[t
         if accumulator is not None:
             accumulator.all_event_times.append(event.second)
 
-    # BuildNexus
-    #
-    # Game 1
-    #  180s BuildNexus
-    #  350s BuildNexus
-    #
-    #  start_time: 3600 / 180. = 20.
-    #  weight: sum(.5 ** (time - first_event) / two_minutes)
-    #
-    # Game 2
-    #   1 base all-in
-    #
-    #   start_time: 1.
-    #
-    # action name: "Nexus"
-
-    # Game 2
-    # if an event:
-    #    start_time: 3600. / (start_time or .1)
-    # else:
-    #    3600.
-    #
-    #
-    # Weight
 
     action_rollups = []
     for action in actions.values():
