@@ -16,6 +16,7 @@ WEIGHT_COL = "{}_weight"
 
 SELF_NAME_COL = "self_name"
 SELF_RACE_COL = "self_race_is_{}"
+SELF_WON = "self_won"
 
 OPPONENT_NAME_COL = "opponent_name"
 OPPONENT_RACE_COL = "opponent_race_is_{}"
@@ -54,6 +55,7 @@ def build_dataframe(fname):
 
     _add_column(START_TIME_COL)
     _add_column(DURATION_COL)
+    _add_column(SELF_WON)
 
     _add_column(SELF_NAME_COL)
     for race in RACES:
@@ -83,6 +85,9 @@ def build_dataframe(fname):
 
         row_dict[START_TIME_COL] = summary.start_time
         row_dict[DURATION_COL] = summary.real_duration_seconds
+
+        if summary.self.winner:
+            row_dict[SELF_WON] = 1.
 
         row_dict[SELF_NAME_COL] = summary.self.name
         row_dict[OPPONENT_NAME_COL] = summary.opponent.name

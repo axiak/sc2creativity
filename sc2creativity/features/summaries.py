@@ -25,7 +25,7 @@ ToOverseer
 WEIGHT_DECAY_HALF_LIFE_SECONDS = 120.
 MAX_INITIAL_TIME = 600.
 CPUS = max(1, multiprocessing.cpu_count() - 2)
-MAX_REPLAYS = 100000
+MAX_REPLAYS = 10000
 RACES = ("terran", "protoss", "zerg")
 
 
@@ -139,7 +139,6 @@ def summarize_replay(replay, player_id_zero_idx, replay_id) -> typing.Optional[t
         return
     actions = {}
     for event in get_build_events(replay, player_id_zero_idx + 1):
-        print(event)
         accumulator = actions.get(event.target_name)
         if accumulator is None and event.second <= MAX_INITIAL_TIME:
             accumulator = actions[event.target_name] = types.ActionEvents(
@@ -190,10 +189,12 @@ def summarize_replay(replay, player_id_zero_idx, replay_id) -> typing.Optional[t
     return types.ReplaySummary(
         self=types.ReplayPlayer(
             name=replay.player[player_id_zero_idx + 1].name,
+            winner=replay.player[player_id_zero_idx + 1].result == 'Win',
             race=self_race
         ),
         opponent=types.ReplayPlayer(
             name=replay.player[other_player + 1].name,
+            winner=replay.player[other_player + 1].result == 'Win',
             race=opponent_race
         ),
         actions=action_rollups,

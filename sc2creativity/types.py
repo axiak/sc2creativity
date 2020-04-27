@@ -21,6 +21,7 @@ class ActionRollup(typing.NamedTuple):
 class ReplayPlayer(typing.NamedTuple):
     name: str
     race: str
+    winner: bool
 
 
 class ReplaySummary(typing.NamedTuple):
