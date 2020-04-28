@@ -20,6 +20,7 @@ matplotlib = "^3.2.1"
 tensorflow-gpu = "2.2.0rc3"
 keras = "^2.3.1"
 seaborn = "^0.10.0"
+pydot = "^1.4.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

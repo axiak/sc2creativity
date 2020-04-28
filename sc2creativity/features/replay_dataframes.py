@@ -13,6 +13,8 @@ INFINITY = 60 * 60
 START_COL = "{}_start"
 WEIGHT_COL = "{}_weight"
 
+MAX_INITIAL_TIME = 4.5 * 60
+
 
 SELF_NAME_COL = "self_name"
 SELF_RACE_COL = "self_race_is_{}"
@@ -96,8 +98,9 @@ def build_dataframe(fname):
         row_dict[OPPONENT_RACE_COL.format(summary.opponent.race)] = 1.
 
         for action in summary.actions:
-            row_dict[WEIGHT_COL.format(action.name)] = action.event_weight
-            row_dict[START_COL.format(action.name)] = action.first_event_time
+            if action.first_event_time <= MAX_INITIAL_TIME:
+                row_dict[WEIGHT_COL.format(action.name)] = action.event_weight
+                row_dict[START_COL.format(action.name)] = action.first_event_time
 
         for col in start_cols:
             row_dict[col] = (row_dict[col] or 0.1) ** 0.5

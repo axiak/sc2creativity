@@ -164,12 +164,12 @@ def summarize_replay(replay, player_id_zero_idx, replay_id) -> typing.Optional[t
     action_rollups.sort(key=lambda x: x.name)
     return types.ReplaySummary(
         self=types.ReplayPlayer(
-            name=replay.player[player_id_zero_idx + 1].name,
+            name=_get_name(replay, player_id_zero_idx + 1),
             winner=replay.player[player_id_zero_idx + 1].result == 'Win',
             race=self_race
         ),
         opponent=types.ReplayPlayer(
-            name=replay.player[other_player + 1].name,
+            name=_get_name(replay, other_player + 1),
             winner=replay.player[other_player + 1].result == 'Win',
             race=opponent_race
         ),
@@ -178,6 +178,15 @@ def summarize_replay(replay, player_id_zero_idx, replay_id) -> typing.Optional[t
         replay_id=replay_id,
         real_duration_seconds=int(replay.real_length.total_seconds())
     )
+
+
+def _get_name(replay, player_id):
+    player = replay.player[player_id]
+    clan_tag = getattr(player, 'clan_tag', None)
+    if clan_tag:
+        return "<{}>{}".format(clan_tag, player.name)
+    else:
+        return player.name
 
 
 def _get_race(replay, player_id):
